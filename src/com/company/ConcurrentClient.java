@@ -13,26 +13,33 @@ import java.net.SocketTimeoutException;
 
 /**
  * Created by priya on 3/29/15.
+ *
  */
 public class ConcurrentClient {
 
         // call  constructor to start the program
-        public static void main(String[] args)
-        {
-            new ConcurrentClient();
-        }
+
 
         public ConcurrentClient()
         {
-            String serverName = "localhost";
+            String serverName = "10.0.0.199";
             int port = 8080;
+            String htmlGetRequest = "GET / HTTP/1.1\n" +
+                    "Host: " + serverName + ":"+ port + "\n" +
+                    "Accept-Encoding: gzip, deflate\n" +
+                    "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\n" +
+                    "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/600.5.15 (KHTML, like Gecko) Version/8.0.5 Safari/600.5.15\n" +
+                    "Accept-Language: en-us\n" +
+                    "DNT: 1\n" +
+                    "Connection: keep-alive";
+
             try
             {
                 // open a socket
                 Socket socket = openSocket(serverName, port);
 
                 // write to and read from socket
-                String result = writeToAndReadFromSocket(socket, "GET /\n\n");
+                String result = writeToAndReadFromSocket(socket, htmlGetRequest);
 
                 // print out the result we got back from the server
                 System.out.println(result);
@@ -61,7 +68,7 @@ public class ConcurrentClient {
                 String str;
                 while ((str = bufferedReader.readLine()) != null)
                 {
-                    sb.append(str + "\n");
+                    sb.append(str).append("\n");
                 }
 
                 // close the reader, and return the results as a String
