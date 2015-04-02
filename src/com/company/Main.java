@@ -9,7 +9,7 @@ public class Main {
         ConcurrentClient client = new ConcurrentClient(8080, "10.0.0.59");
         long startTime = System.nanoTime();
 
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 1; i++) {
             client.runRequest(false);
         }
 
