@@ -18,13 +18,15 @@ import java.net.SocketTimeoutException;
 public class ConcurrentClient {
 
         // call  constructor to start the program
+        public String serverName;
+        public int port;
+        public String htmlGetRequest;
 
-
-        public ConcurrentClient()
+        public ConcurrentClient(int port, String server)
         {
-            String serverName = "10.0.0.199";
-            int port = 8080;
-            String htmlGetRequest = "GET / HTTP/1.1\n" +
+            this.serverName = server;
+            this.port = port;
+            htmlGetRequest = "GET / HTTP/1.1\n" +
                     "Host: " + serverName + ":"+ port + "\n" +
                     "Accept-Encoding: gzip, deflate\n" +
                     "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\n" +
@@ -32,7 +34,10 @@ public class ConcurrentClient {
                     "Accept-Language: en-us\n" +
                     "DNT: 1\n" +
                     "Connection: keep-alive";
+        }
 
+
+        public void runRequest(boolean verbose) {
             try
             {
                 // open a socket
@@ -42,7 +47,9 @@ public class ConcurrentClient {
                 String result = writeToAndReadFromSocket(socket, htmlGetRequest);
 
                 // print out the result we got back from the server
-                System.out.println(result);
+                if (verbose) {
+                    System.out.println(result);
+                }
 
                 // close the socket
                 socket.close();
@@ -52,6 +59,7 @@ public class ConcurrentClient {
                 e.printStackTrace();
             }
         }
+
 
         private String writeToAndReadFromSocket(Socket socket, String writeTo) throws Exception
         {
